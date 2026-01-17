@@ -1,4 +1,6 @@
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -12,26 +14,45 @@ public class Artemis {
          /_/   \\_\\_|   \\__\\___|_| |_| |_|_|___/
                                                
         """;
-        System.out.println(Colors.RED + "    Hello from\n" + logo+ Colors.RESET);
-        System.out.println("    ____________________________________________________________");
-        System.out.println(Colors.RED +"    Hello! I'm Artemis\n    What can I do for you?" + Colors.RESET);
-        System.out.println("    ____________________________________________________________");
-
+        
+        List<String> list = new ArrayList<>();
 
         try (Scanner scanner = new Scanner(System.in)) {
+            System.out.println(Colors.RED + "    Hello from\n" + logo+ Colors.RESET);
+            System.out.println("    ____________________________________________________________");
+            System.out.println(Colors.RED +"    Hello! I'm Artemis\n    What can I do for you?" + Colors.RESET);
+            System.out.println("    ____________________________________________________________");
+            
             while (true){
                 System.out.println();
+                System.out.print(Colors.BLUE);
                 String userInput = scanner.nextLine();
+                System.out.print(Colors.RESET);
+
                 if (userInput.equals("bye")) {
                     System.out.println("    ____________________________________________________________");
-                    System.out.println("    " + Colors.GREEN + "Bye. Hope to see you again soon!" + Colors.RESET);
+                    System.out.println("    " + Colors.RED + "Bye. Hope to see you again soon!" + Colors.RESET);
                     System.out.println("    ____________________________________________________________");
                     break;
                 }
-                System.out.println("    ____________________________________________________________");
-                System.out.println("    " + Colors.BLUE + userInput + Colors.RESET);
-                System.out.println("    ____________________________________________________________");
+
+                if (userInput.equals("list")) {
+                    System.out.println("    ____________________________________________________________");
+                    int count = 1;
+                    for (String item: list){
+                        System.out.println("    " + count + ". " + Colors.GREEN + item + Colors.RESET);
+                        count++;
+                    }
+                    System.out.println("    ____________________________________________________________");
+                } else {
+                    list.add(userInput);
+                    System.out.println("    ____________________________________________________________");
+                    System.out.println("    " +  Colors.RED + "added: " + userInput + Colors.RESET);
+                    System.out.println("    ____________________________________________________________");
+                }
+
             }
         }
+        
     }
 }
