@@ -3,8 +3,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
 public class Artemis {
+
     public static void main(String[] args) {
         String logo = """
              _         _                 _     
@@ -14,16 +14,16 @@ public class Artemis {
          /_/   \\_\\_|   \\__\\___|_| |_| |_|_|___/
                                                
         """;
-        
+
         List<Task> list = new ArrayList<>();
 
         try (Scanner scanner = new Scanner(System.in)) {
-            System.out.println(Colors.RED + "    Hello from\n" + logo+ Colors.RESET);
+            System.out.println(Colors.RED + "    Hello from\n" + logo + Colors.RESET);
             System.out.println("    ____________________________________________________________");
-            System.out.println(Colors.RED +"    Hello! I'm Artemis\n    What can I do for you?" + Colors.RESET);
+            System.out.println(Colors.RED + "    Hello! I'm Artemis\n    What can I do for you?" + Colors.RESET);
             System.out.println("    ____________________________________________________________");
-            
-            while (true){
+
+            while (true) {
                 System.out.println();
                 System.out.print(Colors.BLUE);
                 String userInput = scanner.nextLine();
@@ -40,7 +40,7 @@ public class Artemis {
                     System.out.println("    ____________________________________________________________");
                     System.out.println("    " + Colors.RED + "Here are the tasks in your list:" + Colors.RESET);
                     int count = 1;
-                    for (Task task: list){
+                    for (Task task : list) {
                         System.out.println("    " + count + ". " + Colors.GREEN + task + Colors.RESET);
                         count++;
                     }
@@ -64,12 +64,12 @@ public class Artemis {
                 } else {
                     list.add(new Task(userInput));
                     System.out.println("    ____________________________________________________________");
-                    System.out.println("    " +  Colors.RED + "added: " + userInput + Colors.RESET);
+                    System.out.println("    " + Colors.RED + "added: " + userInput + Colors.RESET);
                     System.out.println("    ____________________________________________________________");
                 }
 
             }
         }
-        
+
     }
 }

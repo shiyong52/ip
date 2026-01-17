@@ -1,4 +1,6 @@
+
 public class Task {
+
     protected String description;
     protected boolean isDone;
 
@@ -6,10 +8,10 @@ public class Task {
         this.description = description;
         this.isDone = false;
     }
-    
+
     public void markAsDone() {
         this.isDone = true;
-    }  
+    }
 
     public void markAsNotDone() {
         this.isDone = false;
