@@ -15,7 +15,7 @@ public class Artemis {
                                                
         """;
         
-        List<String> list = new ArrayList<>();
+        List<Task> list = new ArrayList<>();
 
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.println(Colors.RED + "    Hello from\n" + logo+ Colors.RESET);
@@ -38,14 +38,31 @@ public class Artemis {
 
                 if (userInput.equals("list")) {
                     System.out.println("    ____________________________________________________________");
+                    System.out.println("    " + Colors.RED + "Here are the tasks in your list:" + Colors.RESET);
                     int count = 1;
-                    for (String item: list){
-                        System.out.println("    " + count + ". " + Colors.GREEN + item + Colors.RESET);
+                    for (Task task: list){
+                        System.out.println("    " + count + ". " + Colors.GREEN + task + Colors.RESET);
                         count++;
                     }
                     System.out.println("    ____________________________________________________________");
+                } else if (userInput.startsWith("mark ")) {
+                    int index = Integer.parseInt(userInput.split(" ")[1]) - 1;
+                    Task task = list.get(index);
+                    task.markAsDone();
+                    System.out.println("    ____________________________________________________________");
+                    System.out.println("    " + Colors.RED + "Nice! I've marked this task as done:" + Colors.RESET);
+                    System.out.println("    " + Colors.GREEN + "  " + task + Colors.RESET);
+                    System.out.println("    ____________________________________________________________");
+                } else if (userInput.startsWith("unmark ")) {
+                    int index = Integer.parseInt(userInput.split(" ")[1]) - 1;
+                    Task task = list.get(index);
+                    task.markAsNotDone();
+                    System.out.println("    ____________________________________________________________");
+                    System.out.println("    " + Colors.RED + "OK, I've marked this task as not done yet:" + Colors.RESET);
+                    System.out.println("    " + Colors.GREEN + "  " + task + Colors.RESET);
+                    System.out.println("    ____________________________________________________________");
                 } else {
-                    list.add(userInput);
+                    list.add(new Task(userInput));
                     System.out.println("    ____________________________________________________________");
                     System.out.println("    " +  Colors.RED + "added: " + userInput + Colors.RESET);
                     System.out.println("    ____________________________________________________________");
