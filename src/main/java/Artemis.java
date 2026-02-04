@@ -6,70 +6,79 @@ import java.util.Scanner;
 public class Artemis {
 
     public static void main(String[] args) {
-        String logo = """
-             _         _                 _     
-            / \\   _ __| |_ ___ _ __ ___ (_)___ 
-           / _ \\ | '__| __/ _ \\ '_ ` _ \\| / __|
-          / ___ \\| |  | ||  __/ | | | | | \\__ \\
-         /_/   \\_\\_|   \\__\\___|_| |_| |_|_|___/
-                                               
-        """;
-
         List<Task> list = new ArrayList<>();
 
         try (Scanner scanner = new Scanner(System.in)) {
-            System.out.println(Colors.RED + "    Hello from\n" + logo + Colors.RESET);
-            System.out.println("    ____________________________________________________________");
-            System.out.println(Colors.RED + "    Hello! I'm Artemis\n    What can I do for you?" + Colors.RESET);
-            System.out.println("    ____________________________________________________________");
+            ConsoleUI.displayWelcomeScreen();
 
             while (true) {
-                System.out.println();
-                System.out.print(Colors.BLUE);
-                String userInput = scanner.nextLine();
-                System.out.print(Colors.RESET);
+                String userInput = ConsoleUI.readUserInput(scanner);
 
-                if (userInput.equals("bye")) {
-                    System.out.println("    ____________________________________________________________");
-                    System.out.println("    " + Colors.RED + "Bye. Hope to see you again soon!" + Colors.RESET);
-                    System.out.println("    ____________________________________________________________");
+                String[] parts = userInput.split(" ");
+                String command = parts[0];
+
+                int index;
+                String description;
+                String content;
+                Task task;
+
+                switch (command) {
+                case "bye":
+                    ConsoleUI.displayFarewellScreen();
+                    return;
+                case "list":
+                    ConsoleUI.showTaskList(list);
                     break;
-                }
-
-                if (userInput.equals("list")) {
-                    System.out.println("    ____________________________________________________________");
-                    System.out.println("    " + Colors.RED + "Here are the tasks in your list:" + Colors.RESET);
-                    int count = 1;
-                    for (Task task : list) {
-                        System.out.println("    " + count + ". " + Colors.GREEN + task + Colors.RESET);
-                        count++;
-                    }
-                    System.out.println("    ____________________________________________________________");
-                } else if (userInput.startsWith("mark ")) {
-                    int index = Integer.parseInt(userInput.split(" ")[1]) - 1;
-                    Task task = list.get(index);
+                case "mark":
+                    index = Integer.parseInt(parts[1]) - 1;
+                    task = list.get(index);
                     task.markAsDone();
-                    System.out.println("    ____________________________________________________________");
-                    System.out.println("    " + Colors.RED + "Nice! I've marked this task as done:" + Colors.RESET);
-                    System.out.println("    " + Colors.GREEN + "  " + task + Colors.RESET);
-                    System.out.println("    ____________________________________________________________");
-                } else if (userInput.startsWith("unmark ")) {
-                    int index = Integer.parseInt(userInput.split(" ")[1]) - 1;
-                    Task task = list.get(index);
+                    ConsoleUI.showTaskMarked(task, true);
+                    break;
+                case "unmark":
+                    index = Integer.parseInt(parts[1]) - 1;
+                    task = list.get(index);
                     task.markAsNotDone();
-                    System.out.println("    ____________________________________________________________");
-                    System.out.println("    " + Colors.RED + "OK, I've marked this task as not done yet:" + Colors.RESET);
-                    System.out.println("    " + Colors.GREEN + "  " + task + Colors.RESET);
-                    System.out.println("    ____________________________________________________________");
-                } else {
-                    list.add(new Task(userInput));
-                    System.out.println("    ____________________________________________________________");
-                    System.out.println("    " + Colors.RED + "added: " + userInput + Colors.RESET);
-                    System.out.println("    ____________________________________________________________");
+                    ConsoleUI.showTaskMarked(task, true);
+                    break;
+                case "todo":
+                    description = userInput.substring(5);
+                    ToDo todo = new ToDo(description);
+                    list.add(todo);
+                    ConsoleUI.showAdded(todo, list.size());
+                    break;
+                case "deadline":
+                    content = userInput.substring(9);
+                    String[] part = content.split(" /by ", 2);
+                    description = part[0];
+                    String by = part[1];
+                    Deadline deadline = new Deadline(description, by);
+                    list.add(deadline);
+                    ConsoleUI.showAdded(deadline, list.size());
+                    break;
+                case "event":
+                    content = userInput.substring(6);
+                    String[] part1 = content.split(" /from ", 2);
+                    description = part1[0];
+                    String[] part2 = part1[1].split(" /to ",2);
+                    String from = part2[0];
+                    String to = part2[1];
+                    Event event = new Event(description, from, to);
+                    list.add(event);
+                    ConsoleUI.showAdded(event, list.size());
+                    break;
+                default:
+                    task = new Task(userInput);
+                    list.add(task);
+                    ConsoleUI.showTaskAdded(userInput);
+                    break;
                 }
 
             }
         }
 
     }
+
+
+
 }
