@@ -10,12 +10,11 @@ public class Artemis {
 
         try (Scanner scanner = new Scanner(System.in)) {
             ConsoleUI.displayWelcomeScreen();
+            ConsoleUI.displayUserGuide();
 
             while (true) {
                 String userInput = ConsoleUI.readUserInput(scanner);
-
-                String[] parts = userInput.split(" ");
-                String command = parts[0];
+                String command = ConsoleUI.readCommand(userInput);
 
                 int index;
                 String description;
@@ -30,39 +29,38 @@ public class Artemis {
                     ConsoleUI.showTaskList(list);
                     break;
                 case "mark":
-                    index = Integer.parseInt(parts[1]) - 1;
+                    index = ConsoleUI.getIndex(userInput);
                     task = list.get(index);
                     task.markAsDone();
                     ConsoleUI.showTaskMarked(task, true);
                     break;
                 case "unmark":
-                    index = Integer.parseInt(parts[1]) - 1;
+                    index = ConsoleUI.getIndex(userInput);
                     task = list.get(index);
                     task.markAsNotDone();
                     ConsoleUI.showTaskMarked(task, true);
                     break;
                 case "todo":
-                    description = userInput.substring(5);
+                    description = userInput.substring(ConsoleUI.TODO_INDEX);
                     ToDo todo = new ToDo(description);
                     list.add(todo);
                     ConsoleUI.showAdded(todo, list.size());
                     break;
                 case "deadline":
-                    content = userInput.substring(9);
-                    String[] part = content.split(" /by ", 2);
-                    description = part[0];
-                    String by = part[1];
+                    String[] deadlineContent = ConsoleUI.readContent(userInput, ConsoleUI.DEADLINE_INDEX);
+                    description = deadlineContent[0];
+                    String by = deadlineContent[1];
+
                     Deadline deadline = new Deadline(description, by);
                     list.add(deadline);
                     ConsoleUI.showAdded(deadline, list.size());
                     break;
                 case "event":
-                    content = userInput.substring(6);
-                    String[] part1 = content.split(" /from ", 2);
-                    description = part1[0];
-                    String[] part2 = part1[1].split(" /to ",2);
-                    String from = part2[0];
-                    String to = part2[1];
+                    String[] eventContent = ConsoleUI.readContent(userInput, ConsoleUI.EVENT_INDEX);
+                    description = eventContent[0];
+                    String from = eventContent[1];
+                    String to = eventContent[2];
+
                     Event event = new Event(description, from, to);
                     list.add(event);
                     ConsoleUI.showAdded(event, list.size());

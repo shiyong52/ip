@@ -13,6 +13,9 @@ public class ConsoleUI {
         """;
 
     public static final String LINE = "    ____________________________________________________________";
+    public static final int EVENT_INDEX = 6;
+    public static final int DEADLINE_INDEX = 9;
+    public static final int TODO_INDEX = 5;
 
     public static String readUserInput(Scanner scanner) {
         System.out.println();
@@ -20,6 +23,37 @@ public class ConsoleUI {
         String userInput = scanner.nextLine();
         System.out.print(Colors.RESET);
         return userInput;
+    }
+
+    public static String readCommand(String userInput) {
+        String[] parts = userInput.split(" ");
+        return parts[0];
+    }
+
+    public static int getIndex(String userInput) {
+        String[] parts = userInput.split(" ");
+        return Integer.parseInt(parts[1]) - 1;
+    }
+
+    public static String[] readContent(String userInput, int index) {
+        String content = userInput.substring(index);
+        if (index == DEADLINE_INDEX) {
+            return content.split(" /by ", 2);
+        } else if (index == EVENT_INDEX) {
+            if (!content.contains(" /from ") || !content.contains(" /to ")) {
+                throw new IllegalArgumentException("Invalid event format");
+            }
+            String[] fromSplit = content.split(" /from ", 2);
+            String description = fromSplit[0];
+
+            String[] toSplit = fromSplit[1].split(" /to ",2);
+            String from = toSplit[0];
+            String to = toSplit[1];
+
+            return new String[] {description, from, to};
+        } else {
+            throw new IllegalArgumentException("Unknown index type");
+        }
     }
 
     public static void displayFarewellScreen() {
@@ -36,6 +70,19 @@ public class ConsoleUI {
         System.out.println(Colors.RED + "    Hello from\n" + logo + Colors.RESET);
         printLine();
         System.out.println(Colors.RED + "    Hello! I'm Artemis\n    What can I do for you?" + Colors.RESET);
+        printLine();
+    }
+
+    public static void displayUserGuide() {
+        printLine();
+        System.out.println("    User Guide");
+        System.out.println("    Add a Task: todo <task description>");
+        System.out.println("    Add a Deadline: deadline <task description> /by <date>");
+        System.out.println("    Add an Event: event <event description> /from <start time> /to <end time>");
+        System.out.println("    List tasks: list");
+        System.out.println("    Mark task as done: done <task number>");
+        System.out.println("    Delete task: delete <task number>");
+        System.out.println("    Exit: bye");
         printLine();
     }
 
