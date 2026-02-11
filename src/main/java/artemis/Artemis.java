@@ -1,7 +1,14 @@
+package artemis;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import artemis.ui.ConsoleUI;
+import artemis.task.Task;
+import artemis.task.ToDo;
+import artemis.task.Deadline;
+import artemis.task.Event;
 
 public class Artemis {
 
