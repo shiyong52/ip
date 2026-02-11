@@ -1,3 +1,4 @@
+package artemis.task;
 
 public class Task {
     protected String description;
