@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class ConsoleUI {
@@ -16,6 +17,7 @@ public class ConsoleUI {
     public static final int EVENT_INDEX = 6;
     public static final int DEADLINE_INDEX = 9;
     public static final int TODO_INDEX = 5;
+    public static final int MARK_INDEX = 4;
 
     public static String readUserInput(Scanner scanner) {
         System.out.println();
@@ -26,34 +28,56 @@ public class ConsoleUI {
     }
 
     public static String readCommand(String userInput) {
-        String[] parts = userInput.split(" ");
+        String[] parts = userInput.trim().split(" ");
         return parts[0];
     }
 
-    public static int getIndex(String userInput) {
-        String[] parts = userInput.split(" ");
-        return Integer.parseInt(parts[1]) - 1;
+    public static int getIndex(String userInput, int listSize) throws ArtemisException {
+        String[] parts = userInput.trim().split(" ");
+        if (parts.length < 2) {
+            throw new ArtemisException("Oopsie!! I can't read your mind. Add a TASK NUMBER or type menu to see how it works");
+        }
+        int index = Integer.parseInt(parts[1]) - 1;
+        if (index < 0 || index >= listSize) {
+            throw new ArtemisException("TASK NUMBER DOES NOT EXIST, TRY AGAIN!!!!");
+        }
+        return index;
     }
 
-    public static String[] readContent(String userInput, int index) {
-        String content = userInput.substring(index);
-        if (index == DEADLINE_INDEX) {
+    public static String getContent(String userInput) throws ArtemisException {
+        String[] parts = userInput.trim().split(" ", 2);
+        if (parts.length < 2) {
+            throw new ArtemisException("Oopsie!! I can't read your mind. Type menu to see how it works");
+        }
+        return parts[1].trim();
+    }
+
+
+
+
+    public static String[] readContent(String userInput, String command) throws ArtemisException {
+        String content = getContent(userInput);
+        if (Objects.equals(command, "deadline")) {
+            if (!content.contains(" /by ")) {
+                throw new ArtemisException("PLEASE WRITE IT IN THIS WAY: \n deadline <task description> /by <date>");
+            }
             return content.split(" /by ", 2);
-        } else if (index == EVENT_INDEX) {
+        } else if (Objects.equals(command, "event")) {
             if (!content.contains(" /from ") || !content.contains(" /to ")) {
-                throw new IllegalArgumentException("Invalid event format");
+                throw new ArtemisException("PLEASE WRITE IT IN THIS WAY: \n event <event description> /from <start time> /to <end time>");
             }
             String[] fromSplit = content.split(" /from ", 2);
             String description = fromSplit[0];
 
-            String[] toSplit = fromSplit[1].split(" /to ",2);
+            String[] toSplit = fromSplit[1].split(" /to ", 2);
             String from = toSplit[0];
             String to = toSplit[1];
 
-            return new String[] {description, from, to};
+            return new String[]{description, from, to};
         } else {
-            throw new IllegalArgumentException("Unknown index type");
+            throw new ArtemisException("Unknown index type");
         }
+
     }
 
     public static void displayFarewellScreen() {
@@ -75,7 +99,7 @@ public class ConsoleUI {
 
     public static void displayUserGuide() {
         printLine();
-        System.out.println("    User Guide");
+        System.out.println("    <<<<User Guide>>>>");
         System.out.println("    Add a Task: todo <task description>");
         System.out.println("    Add a Deadline: deadline <task description> /by <date>");
         System.out.println("    Add an Event: event <event description> /from <start time> /to <end time>");
