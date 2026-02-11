@@ -19,7 +19,6 @@ public class Artemis {
 
                     int index;
                     String description;
-                    String content;
                     Task task;
 
                     switch (command) {

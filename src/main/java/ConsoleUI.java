@@ -14,10 +14,6 @@ public class ConsoleUI {
         """;
 
     public static final String LINE = "    ____________________________________________________________";
-    public static final int EVENT_INDEX = 6;
-    public static final int DEADLINE_INDEX = 9;
-    public static final int TODO_INDEX = 5;
-    public static final int MARK_INDEX = 4;
 
     public static String readUserInput(Scanner scanner) {
         System.out.println();
@@ -51,9 +47,6 @@ public class ConsoleUI {
         }
         return parts[1].trim();
     }
-
-
-
 
     public static String[] readContent(String userInput, String command) throws ArtemisException {
         String content = getContent(userInput);
