@@ -53,6 +53,12 @@ public class Artemis {
                         list.add(todo);
                         ConsoleUI.showAdded(todo, list.size());
                         break;
+                    case "delete":
+                        index = ConsoleUI.getIndex(userInput, list.size());
+                        task = list.get(index);
+                        list.remove(index);
+                        ConsoleUI.showDeleted(task, list.size());
+                        break;
                     case "deadline":
                         String[] deadlineContent = ConsoleUI.readContent(userInput, "deadline");
                         description = deadlineContent[0];

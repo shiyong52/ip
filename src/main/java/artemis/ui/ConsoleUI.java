@@ -145,4 +145,11 @@ public class ConsoleUI {
         System.out.println("    " + Colors.RED + "Now you have " + taskCount + " tasks in the list. " + Colors.RESET);
         printLine();
     }
+    public static void showDeleted(Task task, int taskCount) {
+        printLine();
+        System.out.println("    " + Colors.RED + "Noted. I've removed this task: " + Colors.RESET);
+        System.out.println("    " + Colors.GREEN + "  " + task + Colors.RESET);
+        System.out.println("    " + Colors.RED + "Now you have " + taskCount + " tasks in the list. " + Colors.RESET);
+        printLine();
+    }
 }
