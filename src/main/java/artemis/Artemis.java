@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import artemis.storage.Storage;
 import artemis.ui.ConsoleUI;
 import artemis.task.Task;
 import artemis.task.ToDo;
@@ -13,7 +14,9 @@ import artemis.task.Event;
 public class Artemis {
 
     public static void main(String[] args) {
-        List<Task> list = new ArrayList<>();
+        //List<Task> list = new ArrayList<>();
+        Storage storage = new Storage();
+        List<Task> list = storage.load();
 
         try (Scanner scanner = new Scanner(System.in)) {
             ConsoleUI.displayWelcomeScreen();
@@ -40,18 +43,21 @@ public class Artemis {
                         task = list.get(index);
                         task.markAsDone();
                         ConsoleUI.showTaskMarked(task, true);
+                        storage.save(list);
                         break;
                     case "unmark":
                         index = ConsoleUI.getIndex(userInput, list.size());
                         task = list.get(index);
                         task.markAsNotDone();
                         ConsoleUI.showTaskMarked(task, true);
+                        storage.save(list);
                         break;
                     case "todo":
                         description = ConsoleUI.getContent(userInput);
                         ToDo todo = new ToDo(description);
                         list.add(todo);
                         ConsoleUI.showAdded(todo, list.size());
+                        storage.save(list);
                         break;
                     case "delete":
                         index = ConsoleUI.getIndex(userInput, list.size());
@@ -67,6 +73,7 @@ public class Artemis {
                         Deadline deadline = new Deadline(description, by);
                         list.add(deadline);
                         ConsoleUI.showAdded(deadline, list.size());
+                        storage.save(list);
                         break;
                     case "event":
                         String[] eventContent = ConsoleUI.readContent(userInput, "event");
@@ -77,6 +84,7 @@ public class Artemis {
                         Event event = new Event(description, from, to);
                         list.add(event);
                         ConsoleUI.showAdded(event, list.size());
+                        storage.save(list);
                         break;
                     case "menu":
                         ConsoleUI.displayUserGuide();
