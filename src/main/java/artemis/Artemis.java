@@ -64,6 +64,7 @@ public class Artemis {
                         task = list.get(index);
                         list.remove(index);
                         ConsoleUI.showDeleted(task, list.size());
+                        storage.save(list);
                         break;
                     case "deadline":
                         String[] deadlineContent = ConsoleUI.readContent(userInput, "deadline");
