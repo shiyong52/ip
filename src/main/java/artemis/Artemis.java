@@ -13,6 +13,16 @@ import artemis.task.Event;
 
 public class Artemis {
 
+    public static final String BYE = "bye";
+    public static final String LIST = "list";
+    public static final String MARK = "mark";
+    public static final String UNMARK = "unmark";
+    public static final String TODO = "todo";
+    public static final String DELETE = "delete";
+    public static final String DEADLINE = "deadline";
+    public static final String EVENT = "event";
+    public static final String MENU = "menu";
+
     public static void main(String[] args) {
         //List<Task> list = new ArrayList<>();
         Storage storage = new Storage();
@@ -32,41 +42,41 @@ public class Artemis {
                     Task task;
 
                     switch (command) {
-                    case "bye":
+                    case BYE:
                         ConsoleUI.displayFarewellScreen();
                         return;
-                    case "list":
+                    case LIST:
                         ConsoleUI.showTaskList(list);
                         break;
-                    case "mark":
+                    case MARK:
                         index = ConsoleUI.getIndex(userInput, list.size());
                         task = list.get(index);
                         task.markAsDone();
                         ConsoleUI.showTaskMarked(task, true);
                         storage.save(list);
                         break;
-                    case "unmark":
+                    case UNMARK:
                         index = ConsoleUI.getIndex(userInput, list.size());
                         task = list.get(index);
                         task.markAsNotDone();
                         ConsoleUI.showTaskMarked(task, true);
                         storage.save(list);
                         break;
-                    case "todo":
+                    case TODO:
                         description = ConsoleUI.getContent(userInput);
                         ToDo todo = new ToDo(description);
                         list.add(todo);
                         ConsoleUI.showAdded(todo, list.size());
                         storage.save(list);
                         break;
-                    case "delete":
+                    case DELETE:
                         index = ConsoleUI.getIndex(userInput, list.size());
                         task = list.get(index);
                         list.remove(index);
                         ConsoleUI.showDeleted(task, list.size());
                         storage.save(list);
                         break;
-                    case "deadline":
+                    case DEADLINE:
                         String[] deadlineContent = ConsoleUI.readContent(userInput, "deadline");
                         description = deadlineContent[0];
                         String by = deadlineContent[1];
@@ -76,7 +86,7 @@ public class Artemis {
                         ConsoleUI.showAdded(deadline, list.size());
                         storage.save(list);
                         break;
-                    case "event":
+                    case EVENT:
                         String[] eventContent = ConsoleUI.readContent(userInput, "event");
                         description = eventContent[0];
                         String from = eventContent[1];
@@ -87,7 +97,7 @@ public class Artemis {
                         ConsoleUI.showAdded(event, list.size());
                         storage.save(list);
                         break;
-                    case "menu":
+                    case MENU:
                         ConsoleUI.displayUserGuide();
                         break;
                     default:
