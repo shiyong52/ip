@@ -102,7 +102,8 @@ public class ConsoleUI {
         System.out.println("    Add a Deadline: deadline <task description> /by <date>");
         System.out.println("    Add an Event: event <event description> /from <start time> /to <end time>");
         System.out.println("    List tasks: list");
-        System.out.println("    Mark task as done: done <task number>");
+        System.out.println("    Mark task as done: mark <task number>");
+        System.out.println("    Unmark task as done: unmark <task number>");
         System.out.println("    Delete task: delete <task number>");
         System.out.println("    Exit: bye");
         printLine();
