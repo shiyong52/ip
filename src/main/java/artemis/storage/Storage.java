@@ -12,7 +12,7 @@ import artemis.task.Event;
 public class Storage {
     private static final String FILE_PATH = "data/artemis.txt";
 
-    public Storage(){
+    public Storage(String filePath){
         createDataFolderIfMissing();
     }
 
