@@ -1,12 +1,14 @@
 package artemis.ui;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
 
 import artemis.task.Task;
-import artemis.ArtemisException;
 
+/**
+ * Handles interactions with the user via the console.
+ * Responsible for printing messages and reading user input.
+ */
 public class ConsoleUI {
 
     public static final String logo = """
@@ -20,6 +22,11 @@ public class ConsoleUI {
 
     public static final String LINE = "    ____________________________________________________________";
 
+    /**
+     * Reads a line of user input.
+     * @param scanner Scanner object to read input from.
+     * @return The user's input
+     */
     public static String readUserInput(Scanner scanner) {
         System.out.println();
         System.out.print(Colors.BLUE);
@@ -28,6 +35,9 @@ public class ConsoleUI {
         return userInput;
     }
 
+    /**
+     * Prints a farewell message
+     */
     public static void displayFarewellScreen() {
         printLine();
         System.out.println("    " + Colors.RED + "Bye. Hope to see you again soon!" + Colors.RESET);
@@ -38,6 +48,9 @@ public class ConsoleUI {
         System.out.println(LINE);
     }
 
+    /**
+     * Prints a welcome message
+     */
     public static void displayWelcomeScreen() {
         System.out.println(Colors.RED + "    Hello from\n" + logo + Colors.RESET);
         printLine();
@@ -59,6 +72,11 @@ public class ConsoleUI {
         printLine();
     }
 
+    /**
+     * Prints a list of tasks.
+     *
+     * @param list Tasks to display
+     */
     public static void showTaskList(List<Task> list) {
         printLine();
         System.out.println("    " + Colors.RED + "Here are the tasks in your list:" + Colors.RESET);
@@ -72,6 +90,12 @@ public class ConsoleUI {
         printLine();
     }
 
+    /**
+     * Prints a message indicating that a task has been marked or unmarked
+     *
+     * @param task The task that was marked or unmarked
+     * @param done True if the task was marked as done; false if unmarked
+     */
     public static void showTaskMarked(Task task, boolean done) {
         printLine();
         if (done) {
@@ -83,12 +107,12 @@ public class ConsoleUI {
         printLine();
     }
 
-    public static void showTaskAdded(String input) {
-        printLine();
-        System.out.println("    " + Colors.RED + "added: " + input + Colors.RESET);
-        printLine();
-    }
-
+    /**
+     * Prints a message indicating that a task has been added to the list.
+     *
+     * @param task The task that was added.
+     * @param taskCount The total number of tasks in the list after adding.
+     */
     public static void showAdded(Task task, int taskCount) {
         printLine();
         System.out.println("    " + Colors.RED + "Got it. I've added this task: " + Colors.RESET);
@@ -96,6 +120,13 @@ public class ConsoleUI {
         System.out.println("    " + Colors.RED + "Now you have " + taskCount + " tasks in the list. " + Colors.RESET);
         printLine();
     }
+
+    /**
+     * Prints a message indicating that a task has been deleted from the list.
+     *
+     * @param task The task that was removed.
+     * @param taskCount The total number of tasks remaining in the list after deletion.
+     */
     public static void showDeleted(Task task, int taskCount) {
         printLine();
         System.out.println("    " + Colors.RED + "Noted. I've removed this task: " + Colors.RESET);

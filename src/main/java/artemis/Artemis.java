@@ -1,6 +1,5 @@
 package artemis;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,6 +12,11 @@ import artemis.task.ToDo;
 import artemis.task.Deadline;
 import artemis.task.Event;
 
+/**
+ * The main class for Artemis, a console-based task manager.
+ * Handles initialization of storage, task list, and user interface.
+ * Processes user commands in a loop until the user exits.
+ */
 public class Artemis {
 
     private final Storage storage;
@@ -35,6 +39,11 @@ public class Artemis {
         tasksList = new TaskList(storage.load());
     }
 
+    /**
+     * Runs the main program loop
+     * Displays welcome message and user guide (menu).
+     * Continuously reads user input and handles commands.
+     */
     public void run() {
         try (Scanner scanner = new Scanner(System.in)) {
             ConsoleUI.displayWelcomeScreen();

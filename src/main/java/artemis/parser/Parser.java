@@ -3,13 +3,31 @@ package artemis.parser;
 import artemis.ArtemisException;
 import java.util.Objects;
 
+/**
+ * Handles parsing of user input commands.
+ * Provides methods to extract the command keyword, task index, and content for tasks
+ */
 public class Parser {
 
+    /**
+     * Extracts the command keyword from the user input.
+     *
+     * @param userInput Full input string from the user.
+     * @return The first word of the input representing the command.
+     */
     public static String readCommand(String userInput) {
         String[] parts = userInput.trim().split(" ");
         return parts[0];
     }
 
+    /**
+     * Extracts the task index from the user input and validates it against the list size
+     *
+     * @param userInput Full input string form the user.
+     * @param listSize Number of tasks currently in the list.
+     * @return Zero-based index of the task.
+     * @throws ArtemisException If the input does not contain a number or index is out of bounds.
+     */
     public static int getIndex(String userInput, int listSize) throws ArtemisException {
         String[] parts = userInput.trim().split(" ");
         if (parts.length < 2) {
@@ -22,6 +40,13 @@ public class Parser {
         return index;
     }
 
+    /**
+     * Extracts the content portion of the user after the command keyword.
+     *
+     * @param userInput Full input string from the user.
+     * @return The remaining string after the command keyword.
+     * @throws ArtemisException If the input does not contain any content.
+     */
     public static String getContent(String userInput) throws ArtemisException {
         String[] parts = userInput.trim().split(" ", 2);
         if (parts.length < 2) {
@@ -30,6 +55,16 @@ public class Parser {
         return parts[1].trim();
     }
 
+    /**
+     * Parses the content of a deadline or event command keyword.
+     * For deadline: expects "description /by date"
+     * For event: expects "description /from start /to end"
+     *
+     * @param userInput Full input string from the user.
+     * @param command Either "deadline" or "event".
+     * @return String array containing parsed content: deadline: [description, by] ; event: [description, from, to]
+     * @throws ArtemisException If the content format is invalid or unknown command type.
+     */
     public static String[] readContent(String userInput, String command) throws ArtemisException {
         String content = getContent(userInput);
         if (Objects.equals(command, "deadline")) {

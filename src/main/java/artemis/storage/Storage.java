@@ -9,6 +9,10 @@ import artemis.task.Deadline;
 import artemis.task.ToDo;
 import artemis.task.Event;
 
+/**
+ * Handles loading tasks from a file and saving tasks to a file
+ * Uses a fixed file path for storage
+ */
 public class Storage {
     private static final String FILE_PATH = "data/artemis.txt";
 
@@ -16,6 +20,10 @@ public class Storage {
         createDataFolderIfMissing();
     }
 
+    /**
+     * Creates the "data" folder if it does not exits.
+     * Prints a warning if creation fails.
+     */
     private void createDataFolderIfMissing(){
         File dir = new File("data");
         if (!dir.exists() && !dir.mkdirs()) {
@@ -23,6 +31,11 @@ public class Storage {
         }
     }
 
+    /**
+     * Loads tasks from the storage file.
+     *
+     * @return A list of tasks read from the file. Returns an empty list if the file does not exist.
+     */
     public List<Task> load() {
         List<Task> tasks = new ArrayList<>();
         File file = new File(FILE_PATH);
@@ -64,6 +77,11 @@ public class Storage {
         return task;
     }
 
+    /**
+     * Saves the given list of tasks to the storage file.
+     *
+     * @param tasks The list of tasks to save.
+     */
     public void save(List<Task> tasks) {
         try (FileWriter fw = new FileWriter(FILE_PATH)) {
             for (Task task: tasks) {
