@@ -1,30 +1,45 @@
 # Artemis User Guide
 
-// Update the title above to match the actual product name
-
 // Product screenshot goes here
 
-// Product intro goes here
+Artemis is a CLI-based task manager that helps you to keep track of your tasks, deadlines, events, and todos efficiently. It supports fast command-line interaction while automatically saving all changes to locally on your device.
 
-## Adding deadlines
+## Adding Deadlines
 
-// Describe the action and its outcome.
+Use this feature to add a task that has a specific due date.
 
-// Give examples of usage
+Command format:
+`deadline <task description> /by date`
 
-Example: `keyword (optional arguments)`
 
-// A description of the expected outcome goes here
+Example: 
+`deadline return book /by June 6`
 
+Expected output:
 ```
-expected output
+    Got it. I've added this task: 
+      [D][ ] return book (by: June 6)
+    Now you have 8 tasks in the list. 
+ ```
+
+## Adding ToDo Tasks
+
+Use this feature to add a simple task without a date
+
+Command format:
+`todo <task description>`
+
+Example
+`todo read book`
+
+Expected output:
+```
+    Got it. I've added this task: 
+      [T][ ] read book
+    Now you have 9 tasks in the list.
 ```
 
-## Feature ABC
+## Adding Events
 
-// Feature details
-
-
-## Feature XYZ
-
+Use
 // Feature details
