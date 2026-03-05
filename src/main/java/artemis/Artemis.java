@@ -8,6 +8,7 @@ import artemis.storage.Storage;
 import artemis.ui.ConsoleUI;
 import artemis.parser.Parser;
 import artemis.task.Task;
+import artemis.task.TaskList;
 import artemis.task.ToDo;
 import artemis.task.Deadline;
 import artemis.task.Event;
@@ -25,9 +26,8 @@ public class Artemis {
     public static final String MENU = "menu";
 
     public static void main(String[] args) {
-        //List<Task> list = new ArrayList<>();
         Storage storage = new Storage();
-        List<Task> list = storage.load();
+        TaskList tasksList = new TaskList(storage.load());
 
         try (Scanner scanner = new Scanner(System.in)) {
             ConsoleUI.displayWelcomeScreen();
@@ -47,56 +47,56 @@ public class Artemis {
                         ConsoleUI.displayFarewellScreen();
                         return;
                     case LIST:
-                        ConsoleUI.showTaskList(list);
+                        ConsoleUI.showTaskList(tasksList.getTasks());
                         break;
                     case MARK:
-                        index = Parser.getIndex(userInput, list.size());
-                        task = list.get(index);
+                        index = Parser.getIndex(userInput, tasksList.size());
+                        task = tasksList.get(index);
                         task.markAsDone();
                         ConsoleUI.showTaskMarked(task, true);
-                        storage.save(list);
+                        storage.save(tasksList.getTasks());
                         break;
                     case UNMARK:
-                        index = Parser.getIndex(userInput, list.size());
-                        task = list.get(index);
+                        index = Parser.getIndex(userInput, tasksList.size());
+                        task = tasksList.get(index);
                         task.markAsNotDone();
-                        ConsoleUI.showTaskMarked(task, true);
-                        storage.save(list);
+                        ConsoleUI.showTaskMarked(task, false);
+                        storage.save(tasksList.getTasks());
                         break;
                     case TODO:
                         description = Parser.getContent(userInput);
                         ToDo todo = new ToDo(description);
-                        list.add(todo);
-                        ConsoleUI.showAdded(todo, list.size());
-                        storage.save(list);
+                        tasksList.add(todo);
+                        ConsoleUI.showAdded(todo, tasksList.size());
+                        storage.save(tasksList.getTasks());
                         break;
                     case DELETE:
-                        index = Parser.getIndex(userInput, list.size());
-                        task = list.get(index);
-                        list.remove(index);
-                        ConsoleUI.showDeleted(task, list.size());
-                        storage.save(list);
+                        index = Parser.getIndex(userInput, tasksList.size());
+                        task = tasksList.get(index);
+                        tasksList.remove(index);
+                        ConsoleUI.showDeleted(task, tasksList.size());
+                        storage.save(tasksList.getTasks());
                         break;
                     case DEADLINE:
-                        String[] deadlineContent = Parser.readContent(userInput, "deadline");
+                        String[] deadlineContent = Parser.readContent(userInput, DEADLINE);
                         description = deadlineContent[0];
                         String by = deadlineContent[1];
 
                         Deadline deadline = new Deadline(description, by);
-                        list.add(deadline);
-                        ConsoleUI.showAdded(deadline, list.size());
-                        storage.save(list);
+                        tasksList.add(deadline);
+                        ConsoleUI.showAdded(deadline, tasksList.size());
+                        storage.save(tasksList.getTasks());
                         break;
                     case EVENT:
-                        String[] eventContent = Parser.readContent(userInput, "event");
+                        String[] eventContent = Parser.readContent(userInput, EVENT);
                         description = eventContent[0];
                         String from = eventContent[1];
                         String to = eventContent[2];
 
                         Event event = new Event(description, from, to);
-                        list.add(event);
-                        ConsoleUI.showAdded(event, list.size());
-                        storage.save(list);
+                        tasksList.add(event);
+                        ConsoleUI.showAdded(event, tasksList.size());
+                        storage.save(tasksList.getTasks());
                         break;
                     case MENU:
                         ConsoleUI.displayUserGuide();
