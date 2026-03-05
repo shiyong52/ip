@@ -28,6 +28,7 @@ public class Artemis {
     public static final String DEADLINE = "deadline";
     public static final String EVENT = "event";
     public static final String MENU = "menu";
+    public static final String FIND = "find";
 
     public Artemis(String filePath) {
         storage = new Storage(filePath);
@@ -113,6 +114,11 @@ public class Artemis {
             break;
         case MENU:
             ConsoleUI.displayUserGuide();
+            break;
+        case FIND:
+            String keyword = Parser.getContent(userInput);
+            List<Task> matches =  tasksList.find(keyword);
+            ConsoleUI.showTaskList(matches);
             break;
         default:
             throw new ArtemisException("What's That??? I DON'T UNDERSTAND");
