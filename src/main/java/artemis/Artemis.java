@@ -51,15 +51,13 @@ public class Artemis {
                         break;
                     case MARK:
                         index = Parser.getIndex(userInput, tasksList.size());
-                        task = tasksList.get(index);
-                        task.markAsDone();
+                        task = tasksList.mark(index);
                         ConsoleUI.showTaskMarked(task, true);
                         storage.save(tasksList.getTasks());
                         break;
                     case UNMARK:
                         index = Parser.getIndex(userInput, tasksList.size());
-                        task = tasksList.get(index);
-                        task.markAsNotDone();
+                        task = tasksList.unmark(index);
                         ConsoleUI.showTaskMarked(task, false);
                         storage.save(tasksList.getTasks());
                         break;
@@ -72,8 +70,7 @@ public class Artemis {
                         break;
                     case DELETE:
                         index = Parser.getIndex(userInput, tasksList.size());
-                        task = tasksList.get(index);
-                        tasksList.remove(index);
+                        task = tasksList.remove(index);
                         ConsoleUI.showDeleted(task, tasksList.size());
                         storage.save(tasksList.getTasks());
                         break;

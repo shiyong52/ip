@@ -1,6 +1,5 @@
 package artemis.task;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +32,18 @@ public class TaskList {
 
     public List<Task> getTasks() {
         return tasks;
+    }
+
+    public Task mark(int index) {
+        Task task = tasks.get(index);
+        task.markAsDone();
+        return task;
+    }
+
+    public Task unmark(int index) {
+        Task task = tasks.get(index);
+        task.markAsNotDone();
+        return task;
     }
 
 }
