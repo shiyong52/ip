@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import artemis.storage.Storage;
 import artemis.ui.ConsoleUI;
+import artemis.parser.Parser;
 import artemis.task.Task;
 import artemis.task.ToDo;
 import artemis.task.Deadline;
@@ -35,7 +36,7 @@ public class Artemis {
             while (true) {
                 try {
                     String userInput = ConsoleUI.readUserInput(scanner);
-                    String command = ConsoleUI.readCommand(userInput);
+                    String command = Parser.readCommand(userInput);
 
                     int index;
                     String description;
@@ -49,35 +50,35 @@ public class Artemis {
                         ConsoleUI.showTaskList(list);
                         break;
                     case MARK:
-                        index = ConsoleUI.getIndex(userInput, list.size());
+                        index = Parser.getIndex(userInput, list.size());
                         task = list.get(index);
                         task.markAsDone();
                         ConsoleUI.showTaskMarked(task, true);
                         storage.save(list);
                         break;
                     case UNMARK:
-                        index = ConsoleUI.getIndex(userInput, list.size());
+                        index = Parser.getIndex(userInput, list.size());
                         task = list.get(index);
                         task.markAsNotDone();
                         ConsoleUI.showTaskMarked(task, true);
                         storage.save(list);
                         break;
                     case TODO:
-                        description = ConsoleUI.getContent(userInput);
+                        description = Parser.getContent(userInput);
                         ToDo todo = new ToDo(description);
                         list.add(todo);
                         ConsoleUI.showAdded(todo, list.size());
                         storage.save(list);
                         break;
                     case DELETE:
-                        index = ConsoleUI.getIndex(userInput, list.size());
+                        index = Parser.getIndex(userInput, list.size());
                         task = list.get(index);
                         list.remove(index);
                         ConsoleUI.showDeleted(task, list.size());
                         storage.save(list);
                         break;
                     case DEADLINE:
-                        String[] deadlineContent = ConsoleUI.readContent(userInput, "deadline");
+                        String[] deadlineContent = Parser.readContent(userInput, "deadline");
                         description = deadlineContent[0];
                         String by = deadlineContent[1];
 
@@ -87,7 +88,7 @@ public class Artemis {
                         storage.save(list);
                         break;
                     case EVENT:
-                        String[] eventContent = ConsoleUI.readContent(userInput, "event");
+                        String[] eventContent = Parser.readContent(userInput, "event");
                         description = eventContent[0];
                         String from = eventContent[1];
                         String to = eventContent[2];
