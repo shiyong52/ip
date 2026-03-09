@@ -80,7 +80,7 @@ Example:
 mark 1
 unmark 2
 ```
-Expected output:
+Example output:
 ```
      Nice! I've marked this task as done:
        [T][X] read book
@@ -99,7 +99,7 @@ Example:
 ```
 delete 3
 ```
-Expected output:
+Example output:
 ```
     Noted. I've removed this task: 
       [D][ ] watch movie (by: today)
@@ -117,7 +117,7 @@ Example:
 ```
 find book
 ```
-Expected output:
+Example output:
 ```
     Here are the tasks in your list:
     1. [T][X] read book
@@ -129,7 +129,7 @@ Expected output:
 Command format:  
 `list`
 
-Expected output:
+Example output:
 ```
     Here are the tasks in your list:
     1. [T][X] read book
